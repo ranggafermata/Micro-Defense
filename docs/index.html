@@ -661,7 +661,21 @@
           box-shadow: 0 0 10px #e261b733, 0 0 15px #e261c233, 0 0 20px #e261b733, 0 0 25px #e261b733;
         }
       }
-      
+      #ExpandArrow, #ExpandArrow1 {
+        width: 60px;
+        height: auto;
+        margin-top: 1rem;
+        cursor: pointer;
+      }
+      #ExpandArrow:hover, #ExpandArrow1:hover {
+        transform: scale(1.2);
+        transition: transform 0.3s ease;
+        filter: brightness(1.4);
+        }
+      #ExpandArrow:active, #ExpandArrow1:active {
+        transform: scale(0.8);
+        outline: none;
+        }
 
 
 </style>
@@ -902,4 +916,5 @@
 
 </body>
 </html>
+
 

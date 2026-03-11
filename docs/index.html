@@ -3,896 +3,1069 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bangorinas</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
-  
-
-  <title>Bangorinas</title>
-  <link rel="icon" type="image/png" href="./assets/MicroDefenseLogo.png"/>
-  <audio src="https://github.com/ranggafermata/angel-eye-app/raw/refs/heads/main/Future%20Utopians%20City%20-%20music%20only.mp3" autoplay loop></audio>
+  <title>Micro-Defense | Bangorinas Cybersecurity Operations</title>
+  <link rel="icon" type="image/png" href="./assets/MicroDefenseLogo.png" />
   <meta name="description" content="Bangorinas Micro-Defense is a cybersecurity command center part of Bangorinas family created by Rangga Hermawan." />
   <meta name="keywords" content="Bangorinas, Cybersecurity, OSINT, Threat Intelligence Tools, TLE Tracking, Earth observation, Rangga Hermawan, Rangga Fermata, Angel's Eye, AE3, Micro-Defense, Security Tools" />
   <meta name="author" content="Rangga Hermawan" />
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
-    @font-face {
-      font-family: 'Noto Sans'; /* Give your font a name */
-      src: url('./assets/NotoSans_SemiCondensed-Light.ttf') format('ttf'); /* Path to your font file */
+    /* ════════════════════════════════════════
+       RESET & BASE
+       ════════════════════════════════════════ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #04060c;
+      color: #c8d6e5;
+      overflow-x: hidden;
+      line-height: 1.6;
     }
-    main {
+    h1, h2, h3, h4,
+    .nav-brand, .hero-badge {
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    /* ════════════════════════════════════════
+       SCROLLBAR
+       ════════════════════════════════════════ */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #0a0e1a; }
+    ::-webkit-scrollbar-thumb { background: #1a3a5c; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #2a5a8c; }
+
+    /* ════════════════════════════════════════
+       ANIMATED STAR FIELD BACKGROUND
+       ════════════════════════════════════════ */
+    #star-field {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      overflow: hidden;
+      background: radial-gradient(ellipse at 50% 0%, #0b1628 0%, #04060c 70%);
+    }
+    .star-layer {
+      position: absolute;
+      inset: 0;
+      background-repeat: repeat;
+    }
+    .star-layer-1 {
+      background-image:
+        radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,.7) 50%, transparent 50%),
+        radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,.5) 50%, transparent 50%),
+        radial-gradient(1px 1px at 50% 40%, rgba(255,255,255,.6) 50%, transparent 50%),
+        radial-gradient(1px 1px at 70% 10%, rgba(255,255,255,.4) 50%, transparent 50%),
+        radial-gradient(1px 1px at 90% 80%, rgba(255,255,255,.5) 50%, transparent 50%),
+        radial-gradient(1px 1px at 15% 85%, rgba(255,255,255,.3) 50%, transparent 50%),
+        radial-gradient(1px 1px at 60% 75%, rgba(255,255,255,.45) 50%, transparent 50%),
+        radial-gradient(1px 1px at 80% 35%, rgba(255,255,255,.55) 50%, transparent 50%);
+      background-size: 400px 400px;
+      animation: drift 120s linear infinite;
+    }
+    .star-layer-2 {
+      background-image:
+        radial-gradient(1.5px 1.5px at 25% 55%, rgba(120,180,255,.6) 50%, transparent 50%),
+        radial-gradient(1.5px 1.5px at 65% 25%, rgba(120,180,255,.4) 50%, transparent 50%),
+        radial-gradient(1.5px 1.5px at 85% 65%, rgba(120,180,255,.5) 50%, transparent 50%),
+        radial-gradient(1.5px 1.5px at 45% 90%, rgba(120,180,255,.35) 50%, transparent 50%);
+      background-size: 600px 600px;
+      animation: drift 200s linear infinite reverse;
+    }
+    .star-layer-3 {
+      background-image:
+        radial-gradient(2px 2px at 20% 70%, rgba(100,200,255,.8) 50%, transparent 50%),
+        radial-gradient(2px 2px at 75% 45%, rgba(100,200,255,.6) 50%, transparent 50%);
+      background-size: 800px 800px;
+      animation: twinkle 4s ease-in-out infinite alternate, drift 300s linear infinite;
+    }
+    @keyframes drift {
+      from { transform: translateY(0); }
+      to   { transform: translateY(-400px); }
+    }
+    @keyframes twinkle {
+      from { opacity: .4; }
+      to   { opacity: 1; }
+    }
+
+    /* ════════════════════════════════════════
+       GRID OVERLAY
+       ════════════════════════════════════════ */
+    #grid-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background-image:
+        linear-gradient(rgba(20,60,120,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(20,60,120,.06) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    /* ════════════════════════════════════════
+       NAVIGATION
+       ════════════════════════════════════════ */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      height: 70px;
+      background: rgba(4,6,12,.75);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(30,80,160,.2);
+      transition: background .3s, box-shadow .3s;
+    }
+    nav.scrolled {
+      background: rgba(4,6,12,.95);
+      box-shadow: 0 4px 30px rgba(0,100,255,.08);
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      text-decoration: none;
+      color: #fff;
+      font-size: .95rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .nav-brand img {
+      width: 38px;
+      height: 38px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: #8aa4c8;
+      text-decoration: none;
+      font-size: .8rem;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      position: relative;
+      transition: color .3s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #38bdf8, #6366f1);
+      transition: width .3s;
+    }
+    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .55rem 1.4rem;
+      border: 1px solid rgba(56,189,248,.4);
+      border-radius: 6px;
+      background: transparent;
+      color: #38bdf8;
+      font-family: 'Orbitron', sans-serif;
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all .3s;
+    }
+    .nav-cta:hover {
+      background: rgba(56,189,248,.1);
+      box-shadow: 0 0 20px rgba(56,189,248,.15);
+    }
+
+    /* Mobile menu */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .menu-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #8aa4c8;
+      border-radius: 2px;
+      transition: all .3s;
+    }
+
+    /* ════════════════════════════════════════
+       HERO SECTION
+       ════════════════════════════════════════ */
+    .hero {
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      flex-grow: 1;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .4rem 1.2rem;
+      border: 1px solid rgba(56,189,248,.25);
+      border-radius: 100px;
+      font-size: .65rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #38bdf8;
+      margin-bottom: 2rem;
+      animation: fadeSlideUp .8s ease-out;
+    }
+    .hero-badge .dot {
+      width: 6px;
+      height: 6px;
+      background: #22c55e;
+      border-radius: 50%;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,.6); }
+      50%       { box-shadow: 0 0 0 6px rgba(34,197,94,0); }
+    }
+
+    .hero-logo {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 2rem;
+      filter: drop-shadow(0 0 40px rgba(56,189,248,.25));
+      animation: fadeSlideUp .8s ease-out .1s backwards, float 6s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-10px); }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 900;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #fff 0%, #38bdf8 50%, #6366f1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      animation: fadeSlideUp .8s ease-out .2s backwards;
+    }
+    .hero .subtitle {
+      font-size: clamp(.9rem, 2vw, 1.15rem);
+      color: #6b8ab5;
+      max-width: 600px;
+      margin-bottom: 2.5rem;
+      animation: fadeSlideUp .8s ease-out .35s backwards;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeSlideUp .8s ease-out .5s backwards;
+    }
+
+    .btn-primary-glow {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .8rem 2rem;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #1d4ed8, #6366f1);
+      color: #fff;
+      font-family: 'Orbitron', sans-serif;
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all .3s;
+      box-shadow: 0 0 30px rgba(99,102,241,.2);
+    }
+    .btn-primary-glow:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 40px rgba(99,102,241,.4);
+    }
+    .btn-outline-sf {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .8rem 2rem;
+      border: 1px solid rgba(56,189,248,.3);
+      border-radius: 8px;
+      background: transparent;
+      color: #38bdf8;
+      font-family: 'Orbitron', sans-serif;
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all .3s;
+    }
+    .btn-outline-sf:hover {
+      background: rgba(56,189,248,.08);
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px rgba(56,189,248,.15);
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .5rem;
+      animation: fadeSlideUp .8s ease-out .7s backwards;
+    }
+    .scroll-indicator span {
+      font-size: .6rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #4a6a8a;
+    }
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, #38bdf8, transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 1; transform: scaleY(1); }
+      50%      { opacity: .3; transform: scaleY(.5); }
+    }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ════════════════════════════════════════
+       SCROLL REVEAL ANIMATIONS
+       ════════════════════════════════════════ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-60px);
+      transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);
+    }
+    .reveal-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(60px);
+      transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);
+    }
+    .reveal-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Stagger children */
+    .stagger > * { transition-delay: calc(var(--i,0) * .1s); }
+
+    /* ════════════════════════════════════════
+       SECTION LAYOUT
+       ════════════════════════════════════════ */
+    section {
+      padding: 6rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: .65rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #38bdf8;
+      margin-bottom: .75rem;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: #e8f0fe;
+      margin-bottom: 1rem;
+    }
+    .section-desc {
+      font-size: 1rem;
+      color: #6b8ab5;
+      max-width: 650px;
+      margin-bottom: 3rem;
+    }
+
+    /* ════════════════════════════════════════
+       DIVIDER LINE (between sections)
+       ════════════════════════════════════════ */
+    .section-divider {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .section-divider hr {
+      border: none;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, rgba(56,189,248,.2) 50%, transparent 100%);
+    }
+
+    /* ════════════════════════════════════════
+       CAPABILITIES / FEATURE CARDS
+       ════════════════════════════════════════ */
+    .capabilities-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .cap-card {
+      background: rgba(10,18,36,.6);
+      border: 1px solid rgba(30,80,160,.15);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: all .4s;
       position: relative;
       overflow: hidden;
     }
-    
-
-    /* The typing effect */
-    @keyframes typing {
-      from { width: 0 }
-      to { width: 100% }
+    .cap-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+      opacity: 0;
+      transition: opacity .4s;
     }
-
-    /* The typewriter cursor blinking effect */
-    @keyframes blink-caret {
-      from, to { border-color: transparent }
-      50% { border-color: rgb(95, 95, 95); }
+    .cap-card:hover {
+      border-color: rgba(56,189,248,.25);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 40px rgba(0,80,200,.1);
     }
-
-    #hello-image {
-      display: none;
-    }
-
-    body {
-      position: fixed;
-      inset: 0;
-      background-image: url("./assets/AEWallpaper.gif");
-      background-size: cover;
-      display: none; /* toggled by JS */
+    .cap-card:hover::before { opacity: 1; }
+    .cap-icon {
+      width: 48px;
+      height: 48px;
+      display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 3000;
-      padding: 1rem;
-      animation: fadeIn .25s ease-out;
+      border-radius: 10px;
+      background: rgba(56,189,248,.08);
+      margin-bottom: 1.25rem;
+      font-size: 1.3rem;
     }
-  
+    .cap-card h3 {
+      font-size: .95rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #e8f0fe;
+      margin-bottom: .6rem;
+    }
+    .cap-card p {
+      font-size: .85rem;
+      color: #6b8ab5;
+      line-height: 1.6;
+    }
 
-    /* This is the header for the code block */
-    .code-block-header {
-      display: flex;
-      justify-content: space-between;
+    /* ════════════════════════════════════════
+       PRODUCT SHOWCASE (Angel's Eye)
+       ════════════════════════════════════════ */
+    .showcase {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
       align-items: center;
-      background-color: #333;
-      padding: 0.5rem 1rem;
-      border-radius: 0.75rem 0.75rem 0 0;
-      color: #ccc;
-      font-size: 0.8em;
-      text-transform: uppercase;
     }
-
-    .copy-code-btn {
-      background-color: #444;
-      color: #fff;
-      border: none;
-      padding: 0.25rem 0.5rem;
-      border-radius: 0.25rem;
-      cursor: pointer;
-      font-size: 0.9em;
-      transition: background-color 0.2s;
-    }
-
-    .copy-code-btn:hover {
-      background-color: #555;
-    }
-    
-    .text-muted, .form-control::placeholder {
-      color: #cccccc !important;
-    }
-    .btn-outline-light:focus, .btn-outline-light:active {
-      box-shadow: none !important;
-    }
-    .dropdown-menu {
-      min-width: 200px;
-      animation: fadeInDown 0.3s ease-in-out;
-    }
-    @keyframes fadeInDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-
-    #sidebar {
-      position: fixed;
-      top: 0; /* Align to the very top */
-      left: 0;
-      height: 100%; /* Make it full viewport height */
-      width: 250px;
-      background-color: linear-gradient(to bottom, #575555 90%, #333232 10%);
-      border-right: 4px solid #68666634;
-      padding: 1rem;
-      z-index: 1050;
-      display: flex; /* Make it a flex container by default */
-      flex-direction: column;
-      transform: translateX(-100%); /* Start off-screen */
-      transition: transform 0.3s ease-in-out; /* Animate both properties */
-    }
-    #sidebarFooter {
-      margin-top: auto; /* Pushes the footer to the bottom */
-      max-height: 100px; /* Limit the height of the footer */
-      padding: 1rem;
-    }
-    #sidebarHandle {
-      position: absolute;
-      top: 0;
-      left: 100%;
-      width: 72px;
-      height: 100%;
-      background-color: rgba(19, 19, 19, 0);
-    }
-    #sidebar.active {
-      transform: translateX(0); /* Slide into view */
-    }
-    #sidebarToggle {
-      position: absolute;
-      top: 15px;
-      right: -50px;
-      width: 25px; 
-      height: 25px;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      transition: right 0.4s ease-in-out;
-    }
-    #sidebarToggle div {
-      width: 100%;
-      height: 3px;
-      background-color: rgb(165, 163, 163);
-      border-radius: 2px;
-      transition: all 0.4s ease;
-    }
-    #sidebar.active #sidebarToggle .bar1 {
-      transform: rotate(-45deg) translate(-5px, 6px);
-    }
-    #sidebar.active #sidebarToggle .bar2 {
-      opacity: 0;
-    }
-    #sidebar.active #sidebarToggle .bar3 {
-      transform: rotate(45deg) translate(-5px, -5px);
-    }
-    /* When sidebar is active, move the toggle button to a nice spot inside */
-    #sidebar.active #sidebarToggle {
-      right: 20px;
-    }
-    #logo{
-      position: absolute;
-      width: -5px; 
-      right: -290px;
-      height: 0px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      transition: right 0.4s ease-in-out;
-    }
-
-    #modelDropdown{
+    .showcase-visual {
       position: relative;
-      display: inline-block;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(30,80,160,.2);
       cursor: pointer;
-      color: #fff;
-      font-weight: 600;
-      padding: 0.5rem 1rem;
-      background-color: rgba(105, 105, 105, 0.226);
-      border-radius: 0.5rem;
-      transition: background-color 0.3s ease, color 0.3s ease;
+      transition: transform .4s, box-shadow .4s;
     }
-
-    #modelDropdown:hover {
-      background-color: rgba(165, 163, 163, 0.3);
+    .showcase-visual:hover {
+      transform: scale(1.02);
+      box-shadow: 0 20px 60px rgba(0,80,200,.15);
     }
-    #modelDropdown .dropdown-menu {
-      background-color: #333;
-      border: none;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    #modelDropdown .dropdown-item {
-      color: #fff;
-    }
-
-    #modelDropdown .dropdown-item:hover {
-      background-color: #575757;
-    }
-
-    #logo div {
+    .showcase-visual img {
       width: 100%;
-      height: 0px;
-      background-color: white;
-      border-radius: 6px;
-      transition: all 0.4s ease;
-    }
-    #sidebar.active #logo {
-      right: -240px;
-    }
-   
-    .typing-dots {
-      display: inline-block;
-      font-size: 1.2rem;
-      letter-spacing: 2px;
-      animation: blink 1s infinite;
-    }
-    @keyframes blink {
-      0% { opacity: 0.2; }
-      20% { opacity: 1; }
-      100% { opacity: 0.2; }
-    }
-    .btn-outline-light:hover img {
-      transform: scale(1.2);
-      transition: transform 0.3s ease;
-      filter: brightness(1.4);
-    }
-    /* --- Custom Dark Scrollbar Styles --- */
-  /* Works on Firefox */
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: #555 #2c2c2c;
-    }
-
-    /* Works on Chrome, Edge, and Safari */
-    *::-webkit-scrollbar {
-      width: 12px;
-    }
-
-    *::-webkit-scrollbar-track {
-      background: #2c2c2c;
-    }
-
-    *::-webkit-scrollbar-thumb {
-      background-color: #555;
-      border-radius: 20px;
-      border: 3px solid #2c2c2c;
-    }
-
-    *::-webkit-scrollbar-thumb:hover {
-      background-color: #777;
-    }
-    #response-box::-webkit-scrollbar {
-      display: none;
-    }
-
-    /* For Firefox */
-    #response-box {
-      scrollbar-width: none;
-    }
-    #chat-input::-webkit-scrollbar {
-      display: none;
-    }
-    #chat-input {
-      scrollbar-width: none;
-    }
-    
-    #image-preview-container {
-      position: relative;
-      display: inline-block; /* Allows centering with text-center on parent */
-    }
-    #image-preview {
-      width: 120px;
-      height: 120px;
-      border-radius: 0.75rem;
-      object-fit: cover;
-      border: 2px solid #555;
-    }
-    #remove-image-btn {
-      position: absolute;
-      top: -20px;
-      right: -10px;
-      background-color: rgba(0,0,0,0.8);
-      color: white;
-      border: 2px solid #fff;
-      border-radius: 50%;
-      width: 28px;
-      height: 28px;
-      cursor: pointer;
-      font-size: 16px;
-      line-height: 1;
-      text-align: center;
-      padding: 0;
-    }
-    main.chat-active #image-preview-container {
-      transform: translateY(0);
-    }
-    #loading {
-      position: absolute;
-      align-items: center;
-      z-index: 1000;
-    }
-
-    /* Welcome splash styles */
-    
-   
-
-   
-    #welcome-splash {
-      /* background: linear-gradient(180deg, #14141405 10%, #29282815 90%); */
-      position: relative;
-      color: #fff;
-      border-radius: 12px;
-      padding: 22px;
-      max-width: 1000px;
-      width: 100%;
-      /* box-shadow: 0 10px 30px rgba(0, 0, 0, 0.74); */
-      
-      transform: translateY(0);
-    }
-
-    #endeavorConfirmation,
-    #effortConfirmation {
-      /* background: linear-gradient(180deg, #14141405 10%, #29282815 90%); */
-      position: absolute;
-
-      border-radius: 12px;
-      padding: 26px;
-      max-width: 1000px;
-      width: 100%;
-      /* box-shadow: 0 10px 30px rgba(0, 0, 0, 0.74); */
-      text-align: center;
-      bottom: -32px;
-      background-color: rgb(24, 24, 24);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.74);
-      z-index: 3000;
-      animation: fadeIn .25s ease-out;
-    }
-
-    #micro-screen,
-    #welcome-screen,
-    #FreePalestine,
-    #paper-screen,
-    #ai-screen,
-    #aboutscreen,
-    #paypal-screen,
-    #musicproduction-screen{
-      animation: fadeIn .25s ease-out;
-    }
-    
-    #DinoScreen {
-      animation: fadeIn .25s ease-out;
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%; /* Make it full viewport height */
-    }
-
-    #musicPlayer {
-      position: absolute;
-    
-    }
-
-    #welcome-splash h2 {
-      margin: 0 0 8px 0;
-      font-weight: 600;
-    }
-
-    #welcome-splash p {
-      margin: 0 0 16px 0;
-      color: #cfcfcf;
-      line-height: 1.45;
-    }
-
-    #welcome-splash .actions {
-      display: flex;
-      gap: 8px;
-      justify-content: flex-end;
-    }
-    #welcome-splash .actions button {
-      flex: 1;
-      min-width: 120px;
-      height: 560px;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeInUp {
-      from {transform: translateY(0); }
-      to {transform: translateY(6px); }
-    }
-
-    #btn-bangorinas,
-    #btn-micro,
-    #ae1-btn,
-    #ae2-btn {
-      transform: scale(0.8);
-      border: none;
-      animation: neon-light 1.5s ease-in-out infinite alternate;
-    }
-
-    #side-info-content-1 {
-      position: absolute;
-      display: none;
-      animation: fadeInDown .4s ease-out;
-      width: 280px;
-      left: -150px;
-      right: auto;
-      top: 150px;
-      z-index: 10;
-    }
-
-    #side-info-content-2 {
-      position: absolute;
-      display: none;
-      animation: fadeInDown .4s ease-out;
-      width: 280px;
-      right: -150px;
-      left: auto;
-      top: 150px;
-      z-index: 10;
-    }
-
-    #side-info-content-1.active,
-    #side-info-content-2.active {
       display: block;
-     
     }
-
-    #btn-bangorinas:hover,
-    #btn-micro:hover,
-    #ae1-btn:hover,
-    #ae2-btn:hover  {
-      transform: scale(0.9);
-      transition: transform 0.2s ease;
-      outline: none;
-      animation: neon-light-hover 1.5s ease-in-out infinite alternate;
-    }
-
-
-
-    #btn-bangorinas:active,
-    #btn-micro:active,
-    #btn-mp:active,
-    #effort-btn:active,
-    #endeavor-btn:active,
-    #ae1-btn:active,
-    #ae2-btn:active,
-    #paper1-btn:active,
-    #paper2-btn:active,
-    #paper3-btn:active,
-    #paper4-btn:active,
-    #three-pedals:active,
-    #big-l:active,
-    #Ufo-run:active,
-    #PalesBtn:active,
-    #bm-btn:active,
-    #rf-btn:active,
-    #nms-btn:active  {
-      transform: scale(0.6);
-    }
-
-    #side-info,
-    #side-info-ai,
-    #side-info-defense,
-    #side-info-paper {
+    .showcase-glow {
       position: absolute;
-      top: -100px;
-      left: -435px;
-      height: 100%; /* Make it full viewport height */
-      width: 310px;
-      padding: 1rem;
-      z-index: 1050;
-      opacity: 0;
-      cursor: pointer;
-      display: flex; /* Make it a flex container by default */
-      flex-direction: column;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(56,189,248,.08), transparent 60%);
+      pointer-events: none;
     }
-
-    #DinoGame{
-      position: fixed;
-      justify-content: center;
-      align-items: center;
-      top: -250px;
-      height: 50vh; /* Make it full viewport height */
-      width:40vw;
-      padding: 1rem;
-
-      margin: auto; 
-      border-radius: 12px; 
-      overflow: hidden; 
-      
+    .showcase-text h3 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #e8f0fe;
+      margin-bottom: 1rem;
     }
-
-   #DinoBtn,
-   #dino-close {
-      transform: scale(1.0);
-      transition: transform 0.2s ease;
-      border: none;
+    .showcase-text p {
+      font-size: .95rem;
+      color: #6b8ab5;
+      margin-bottom: 1.5rem;
     }
-    
-    #DinoBtn:hover,
-    #dino-close:hover {
-      transform: scale(1.2);
-      outline: none;
-    }
-    
-    #side-info:hover,
-    #side-info-ai:hover,
-    #side-info-defense:hover,
-    #side-info-paper:hover {
-        animation: leftIn .25s ease-out; 
-        opacity: 1;
-    }
-
-
-
-    #side-info-footer {
-      margin-top: auto;
+    .tag-list {
       display: flex;
-      flex-direction: row-reverse;
-      bottom: -120px;
-      justify-content: center;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin-bottom: 1.5rem;
+    }
+    .tag {
+      padding: .3rem .8rem;
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border: 1px solid rgba(56,189,248,.2);
+      border-radius: 100px;
+      color: #38bdf8;
+      background: rgba(56,189,248,.05);
+    }
+
+    /* ════════════════════════════════════════
+       STATS BAR
+       ════════════════════════════════════════ */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 2rem;
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .stat-item {
+      text-align: center;
+    }
+    .stat-number {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #38bdf8, #6366f1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label {
+      font-size: .75rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #4a6a8a;
+      margin-top: .25rem;
+    }
+
+    /* ════════════════════════════════════════
+       ABOUT SECTION
+       ════════════════════════════════════════ */
+    .about-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .about-text p {
+      font-size: .95rem;
+      color: #6b8ab5;
+      margin-bottom: 1.25rem;
+    }
+    .about-highlights {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .highlight-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.25rem;
+      border: 1px solid rgba(30,80,160,.12);
+      border-radius: 10px;
+      background: rgba(10,18,36,.4);
+      transition: border-color .3s, transform .3s;
+    }
+    .highlight-item:hover {
+      border-color: rgba(56,189,248,.25);
+      transform: translateX(4px);
+    }
+    .highlight-icon {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      display: flex;
       align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: rgba(56,189,248,.08);
+      font-size: 1.1rem;
+    }
+    .highlight-item h4 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #e8f0fe;
+      margin-bottom: .25rem;
+    }
+    .highlight-item p {
+      font-size: .82rem;
+      color: #5a7a9a;
+      line-height: 1.5;
     }
 
-    #main-menu {
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      transition: background-color 0.2s;
+    /* ════════════════════════════════════════
+       CONTACT / CTA
+       ════════════════════════════════════════ */
+    .cta-section {
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+    }
+    .cta-section h2 {
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: #e8f0fe;
+      margin-bottom: 1rem;
+    }
+    .cta-section p {
+      color: #6b8ab5;
+      max-width: 550px;
+      margin: 0 auto 2rem;
+    }
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .social-link {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(30,80,160,.2);
+      border-radius: 10px;
+      background: rgba(10,18,36,.5);
+      transition: all .3s;
+    }
+    .social-link img {
+      width: 22px;
+      height: 22px;
+      filter: brightness(.7);
+      transition: filter .3s;
+    }
+    .social-link:hover {
+      border-color: rgba(56,189,248,.4);
+      background: rgba(56,189,248,.08);
+      transform: translateY(-3px);
+    }
+    .social-link:hover img {
+      filter: brightness(1);
     }
 
-    #main-menu:hover {
-      background-color: #333;
+    /* ════════════════════════════════════════
+       FOOTER
+       ════════════════════════════════════════ */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid rgba(30,80,160,.12);
+      font-size: .75rem;
+      color: #3a5a7a;
     }
-
-    #donate-btn {
-      transform: scale(1.0);
-      transition: transform 0.2s ease;
-      border: none;
+    footer a {
+      color: #38bdf8;
+      text-decoration: none;
     }
+    footer a:hover { text-decoration: underline; }
 
-    #donate-btn:hover {
-        background-image: url("./assets/donate2.png");
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: bottom;
-        transform: scale(1.05);
-        opacity: 1.0;
+    /* ════════════════════════════════════════
+       RESPONSIVE
+       ════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      .showcase { grid-template-columns: 1fr; }
+      .about-content { grid-template-columns: 1fr; }
     }
-    #donate-btn img {
-        width: 100%;
-        display: block;
-        height: auto;
-        transition: transform 0.12s ease, opacity 0.12s ease;
-        user-select: none;
-        -webkit-user-drag: none;
+    @media (max-width: 700px) {
+      .nav-links, .nav-cta { display: none; }
+      .menu-toggle { display: flex; }
+      nav.open .nav-links {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: rgba(4,6,12,.97);
+        padding: 2rem;
+        gap: 1.5rem;
+        border-bottom: 1px solid rgba(30,80,160,.2);
       }
-      #donate-btn:hover img {
-        transform: scale(1.1);
+      nav.open .nav-cta {
+        display: inline-flex;
+        position: absolute;
+        top: calc(70px + var(--mobile-links-h, 200px));
       }
-      #donate-btn:active {
-        background-image: url("./assets/donate3.png");
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: bottom;
-      }
-
-      #donate-btn:active img {
-        transform: scale(0.8);
-      }
-
-      #contact,
-      #Palestine,
-      #btn-paper {
-        transform: scale(0.8);
-        transition: transform 0.2s ease;
-        border: none;
-      }
-
-      #contact:hover,
-      #Palestine:hover,
-      #btn-paper:hover {
-        transform: scale(1.0);
-        opacity: 1.0;
-      }
-
-      #contact:active,
-      #Palestine:active,
-      #btn-paper:active,
-      #information:active,
-      #play:active {
-        transform: scale(0.8);
-        
-      }
-
-      #contact-screen {
-        animation: fadeIn .25s ease-out;
-      }
-
-      
-      #information, #play {
-        transition: transform 0.2s ease;
-        border: none;
-      }
-  
-      
-      #arcade-screen .actions {
-        animation: fadeIn .25s ease-out;
-      }
-
-      @keyframes playIn {
-        from { opacity: 0; transform: translateX(-7px); }
-        to { opacity: 1; transform: translateX(0); }
-      }
-      
-      @keyframes leftIn {
-        from { opacity: 0; transform: translateX(6px); }
-        to { opacity: 1; transform: translateX(0); }
-      }
-
-      @keyframes neon-light
-      {
-        0% {
-          box-shadow:  #61cfe233 0px 0px 5px, 0 0 10px #61cfe233, 0 0 15px #61cfe233, 0 0 20px #61cfe233;
-        }
-        10% {
-          box-shadow: 0 0 10px #61cfe233, 0 0 15px #61cfe233, 0 0 20px #61cfe233, 0 0 25px #61cfe233;
-        }
-      }
-
-      @keyframes neon-light-hover
-      {
-        0% {
-          box-shadow:  #e261c633 0px 0px 5px, 0 0 10px #e261c633, 0 0 15px #e261a133, 0 0 20px #e261bb33;
-        }
-        10% {
-          box-shadow: 0 0 10px #e261b733, 0 0 15px #e261c233, 0 0 20px #e261b733, 0 0 25px #e261b733;
-        }
-      }
-      
-
-
-</style>
-
+      .hero h1 { letter-spacing: 2px; }
+      section { padding: 4rem 1.25rem; }
+    }
+  </style>
 </head>
-  
 
-<body class="d-flex flex-column min-vh-100">
+<body>
+  <!-- ── Star field background ── -->
+  <div id="star-field">
+    <div class="star-layer star-layer-1"></div>
+    <div class="star-layer star-layer-2"></div>
+    <div class="star-layer star-layer-3"></div>
+  </div>
+  <div id="grid-overlay"></div>
 
+  <!-- ══════════════════════════════════════
+       NAVIGATION
+       ══════════════════════════════════════ -->
+  <nav id="main-nav">
+    <a href="#" class="nav-brand">
+      <img src="./assets/MicroDefenseLogo.png" alt="Micro-Defense" />
+      <span>Micro-Defense</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#capabilities">Capabilities</a></li>
+      <li><a href="#flagship">Flagship</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="https://angel-eye.bangorinas.com/" class="nav-cta" target="_blank" rel="noopener">
+      Launch AE3 &rarr;
+    </a>
+    <button class="menu-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
 
-    <header id="Header" class="navbar px-4 py-2 d-flex justify-content-between align-items-center shadow-sm" style="position: absolute; top: 0; left: 0; width: 100%; z-index: 1000; overflow-x: auto; overflow-wrap: anywhere;">
-     <div id="side-info-footer-1" class="actions" style="justify-content: center;">
-      <div id="information" class="btn">
-          <a href="https://bangorinas.com/"><img src="./assets/Infobang.png" alt="Information"></a>
-        </div> 
-      
-      </div>
-      <div id="side-info-footer" class="actions" style="justify-content: space-between; width: 50px; height: 65px; scale: 0.5; display: none;">
-        <div id="play" class="btn">
-              <img src="./assets/MicroDefenseLogo.png" >
-            </div>
-             
-      </div>
-      
-    </header>
-
-
-    <div id="welcome-splash" >
-      <!-- Screen 1: front door -->
-      <div id="welcomeDoor"> 
-      <img src="./assets/MicroDefenseLogo.png" class="img-fluid mx-auto d-block" style="max-width: 200px; height: auto" alt="Micro-Defense Logo">
-        <h2 class="text-center">Micro-Defense</h2>
-        <p class="text-center text-muted">Bangorinas Cybersecurity Operations Center</p>
-        <div class="text-center">
-        <img src="./assets/ExpandArrow.png" id="ExpandArrow" class="btn" role="button" alt="ExpandArrow">
-        </div>
-      </div>
-
-      <!-- Screen 2: Micro-Defense (hidden by default) -->
-      <div id="micro-screen" style="display: none;">
-       
-        <div class="actions" style="justify-content: center; overflow-x: auto;">
-          <img src="./assets/ae3Banner.png" class="img-fluid mx-auto d-block" style="max-width: 750px; height: auto" id="ae1-btn" role="button" alt="AE 1">
-        </div>
-
-         <div class="d-flex">
-        <div id="side-info-content-1" class="text-light  py-2" >
-            <h6>Angel's Eye 3</h6>
-            <p class="text-muted">Angel's Eye 3 or AE3 is a cutting-edge OSINT & Cyber Threat Intelligence, designed for users of all backgrounds. Harnessing real-time IP mapping, AI-driven threat analysis, TLE tracking, radio browsing, ADS-B aviation tracking, and public live camera data streams, Angel's Eye empowers users to proactively identify, mitigate cyber threats, gain open-source intelligence and enhance situational awareness. Stay ahead in the ever-evolving digital landscape with our comprehensive solution for enhanced security and situational awareness.</p>
-          </div>
-          </div>
-
-
-      </div>
-
-       <div id="aboutscreen" class="shadow-sm" style="display: none;">
-         <h2 class="text-center">About</h2>
-         <p class="text-center text-muted">Bangorinas | Micro-Defense is a cybersecurity operations divison of Bangorinas, its goal is to enhance security measures through cutting-edge, security-driven solutions.</p>
-         <p class="text-center text-muted">Micro-Defense focuses on providing advanced threat intelligence tools and services to enhancing your security posture through innovative security-driven solutions.</p>
-         <p class="text-center text-muted">With a commitment to innovation and excellence, Micro-Defense aims to be a trusted partner in the ever-evolving landscape of cybersecurity.</p>
-         <button id="about-close" class="btn btn-outline-light ms-2" style="margin-top: 2rem;">Back</button>
-       </div>
-
+  <!-- ══════════════════════════════════════
+       HERO
+       ══════════════════════════════════════ -->
+  <section class="hero" id="hero">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Systems Operational
     </div>
+    <img src="./assets/MicroDefenseLogo.png" alt="Micro-Defense Logo" class="hero-logo" />
+    <h1>Micro-Defense</h1>
+    <p class="subtitle">
+      Bangorinas Cybersecurity Operations Center — Advanced threat intelligence,
+      real-time surveillance, and OSINT-driven security operations.
+    </p>
+    <div class="hero-actions">
+      <a href="https://angel-eye.bangorinas.com/" class="btn-primary-glow" target="_blank" rel="noopener">
+        &#9670; Access Angel's Eye 3
+      </a>
+      <a href="#about" class="btn-outline-sf">
+        &#9671; Learn More
+      </a>
+    </div>
+    <div class="scroll-indicator">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
 
-     
+  <!-- ══════════════════════════════════════
+       STATS
+       ══════════════════════════════════════ -->
+  <div class="stats-bar reveal">
+    <div class="stat-item">
+      <div class="stat-number">24/7</div>
+      <div class="stat-label">Operations Monitoring</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">AE3</div>
+      <div class="stat-label">Flagship Platform</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">OSINT</div>
+      <div class="stat-label">Intelligence Driven</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">GLOBAL</div>
+      <div class="stat-label">Threat Coverage</div>
+    </div>
+  </div>
 
-      <footer class="text-center py-3 small  text-muted " style="position: absolute; bottom: 0; width: 100%;">
-        © <span id="year" ></span> Bangorinas | Micro-Defense — Part of <a href="https://bangorinas.com/" class="text-muted">Bangorinas</a> family. All rights reserved.
-      </footer>
-      
-  
+  <div class="section-divider"><hr /></div>
 
-  <!-- Sidebar Toggle & Auth UI Logic -->
+  <!-- ══════════════════════════════════════
+       CAPABILITIES
+       ══════════════════════════════════════ -->
+  <section id="capabilities">
+    <div class="section-label reveal">Operational Capabilities</div>
+    <h2 class="section-title reveal">Defense Systems</h2>
+    <p class="section-desc reveal">
+      Comprehensive cybersecurity operations spanning threat intelligence,
+      digital surveillance, and proactive defense mechanisms.
+    </p>
+    <div class="capabilities-grid stagger">
+      <div class="cap-card reveal" style="--i:0">
+        <div class="cap-icon">&#128752;</div>
+        <h3>Threat Intelligence</h3>
+        <p>AI-driven threat analysis and real-time cyber threat detection to stay ahead of adversaries in the digital battlespace.</p>
+      </div>
+      <div class="cap-card reveal" style="--i:1">
+        <div class="cap-icon">&#127758;</div>
+        <h3>IP Geolocation Mapping</h3>
+        <p>Real-time IP mapping and geolocation tracking for comprehensive network reconnaissance and threat source identification.</p>
+      </div>
+      <div class="cap-card reveal" style="--i:2">
+        <div class="cap-icon">&#128752;</div>
+        <h3>TLE Satellite Tracking</h3>
+        <p>Two-Line Element orbital tracking for space situational awareness and satellite reconnaissance operations.</p>
+      </div>
+      <div class="cap-card reveal" style="--i:3">
+        <div class="cap-icon">&#9992;</div>
+        <h3>ADS-B Aviation Intel</h3>
+        <p>Real-time aviation surveillance through ADS-B signal tracking for aerial situational awareness.</p>
+      </div>
+      <div class="cap-card reveal" style="--i:4">
+        <div class="cap-icon">&#128225;</div>
+        <h3>Radio Signal Browsing</h3>
+        <p>Software-defined radio browsing capabilities for signals intelligence and electromagnetic spectrum monitoring.</p>
+      </div>
+      <div class="cap-card reveal" style="--i:5">
+        <div class="cap-icon">&#128248;</div>
+        <h3>Live Camera Streams</h3>
+        <p>Public live camera data stream aggregation for real-time visual intelligence and environmental awareness.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"><hr /></div>
+
+  <!-- ══════════════════════════════════════
+       FLAGSHIP PRODUCT
+       ══════════════════════════════════════ -->
+  <section id="flagship">
+    <div class="section-label reveal">Flagship Platform</div>
+    <h2 class="section-title reveal">Angel's Eye 3</h2>
+    <p class="section-desc reveal">
+      The cutting-edge OSINT &amp; Cyber Threat Intelligence platform powering Micro-Defense operations.
+    </p>
+    <div class="showcase">
+      <a href="https://angel-eye.bangorinas.com/" target="_blank" rel="noopener" class="showcase-visual reveal-left">
+        <img src="./assets/ae3Banner.png" alt="Angel's Eye 3 Banner" />
+        <div class="showcase-glow"></div>
+      </a>
+      <div class="showcase-text reveal-right">
+        <h3>Next-Gen Cyber Intelligence</h3>
+        <p>
+          Angel's Eye 3 (AE3) is a cutting-edge OSINT &amp; Cyber Threat Intelligence
+          platform designed for users of all backgrounds. Harnessing real-time IP mapping,
+          AI-driven threat analysis, TLE tracking, radio browsing, ADS-B aviation tracking,
+          and public live camera data streams — AE3 empowers users to proactively identify
+          and mitigate cyber threats while enhancing situational awareness.
+        </p>
+        <div class="tag-list">
+          <span class="tag">OSINT</span>
+          <span class="tag">Threat Intel</span>
+          <span class="tag">IP Mapping</span>
+          <span class="tag">TLE Tracking</span>
+          <span class="tag">ADS-B</span>
+          <span class="tag">Radio</span>
+        </div>
+        <a href="https://angel-eye.bangorinas.com/" class="btn-primary-glow" target="_blank" rel="noopener">
+          Launch AE3 &rarr;
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"><hr /></div>
+
+  <!-- ══════════════════════════════════════
+       ABOUT
+       ══════════════════════════════════════ -->
+  <section id="about">
+    <div class="section-label reveal">About The Division</div>
+    <h2 class="section-title reveal">Bangorinas | Micro-Defense</h2>
+    <div class="about-content">
+      <div class="about-text reveal-left">
+        <p>
+          Bangorinas | Micro-Defense is a cybersecurity operations division of Bangorinas,
+          with the goal of enhancing security measures through cutting-edge, security-driven solutions.
+        </p>
+        <p>
+          Micro-Defense focuses on providing advanced threat intelligence tools and services
+          to strengthen your security posture through innovative, security-first approaches.
+        </p>
+        <p>
+          With a commitment to innovation and excellence, Micro-Defense aims to be a trusted
+          partner in the ever-evolving landscape of cybersecurity.
+        </p>
+      </div>
+      <div class="about-highlights reveal-right">
+        <div class="highlight-item">
+          <div class="highlight-icon">&#9883;</div>
+          <div>
+            <h4>Mission-Critical Security</h4>
+            <p>Delivering enterprise-grade cybersecurity operations with military precision and reliability.</p>
+          </div>
+        </div>
+        <div class="highlight-item">
+          <div class="highlight-icon">&#9881;</div>
+          <div>
+            <h4>Innovation First</h4>
+            <p>Pioneering new approaches in OSINT, threat intelligence, and digital surveillance.</p>
+          </div>
+        </div>
+        <div class="highlight-item">
+          <div class="highlight-icon">&#127760;</div>
+          <div>
+            <h4>Global Awareness</h4>
+            <p>Comprehensive coverage from ground-level networks to orbital satellite tracking.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"><hr /></div>
+
+  <!-- ══════════════════════════════════════
+       CONTACT / CTA
+       ══════════════════════════════════════ -->
+  <section class="cta-section" id="contact">
+    <div class="section-label reveal">Get In Touch</div>
+    <h2 class="reveal">Ready to Elevate Your Security?</h2>
+    <p class="reveal">Connect with the Micro-Defense team or explore our platforms.</p>
+    <div class="hero-actions reveal" style="margin-bottom: 2rem;">
+      <a href="https://angel-eye.bangorinas.com/" class="btn-primary-glow" target="_blank" rel="noopener">
+        &#9670; Launch AE3
+      </a>
+      <a href="https://bangorinas.com/" class="btn-outline-sf" target="_blank" rel="noopener">
+        &#9671; Visit Bangorinas
+      </a>
+    </div>
+    <div class="social-links reveal">
+      <a href="https://www.linkedin.com/in/ranggafermata" class="social-link" target="_blank" rel="noopener" title="LinkedIn">
+        <img src="./assets/linkedin.png" alt="LinkedIn" />
+      </a>
+      <a href="https://www.instagram.com/ranggafermata" class="social-link" target="_blank" rel="noopener" title="Instagram">
+        <img src="./assets/instagram.png" alt="Instagram" />
+      </a>
+      <a href="mailto:bangorinas@gmail.com" class="social-link" title="Email">
+        <img src="./assets/email.png" alt="Email" />
+      </a>
+      <a href="https://t.me/ranggafermata" class="social-link" target="_blank" rel="noopener" title="Telegram">
+        <img src="./assets/telegram.png" alt="Telegram" />
+      </a>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       FOOTER
+       ══════════════════════════════════════ -->
+  <footer>
+    &copy; <span id="year"></span> Bangorinas | Micro-Defense &mdash; Part of
+    <a href="https://bangorinas.com/" target="_blank" rel="noopener">Bangorinas</a> family. All rights reserved.
+  </footer>
+
+  <!-- ══════════════════════════════════════
+       SCRIPTS
+       ══════════════════════════════════════ -->
   <script>
+    /* Year */
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    /* Nav scroll effect */
+    const nav = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 50);
+    }, { passive: true });
+
+    /* Mobile menu toggle */
+    document.querySelector('.menu-toggle').addEventListener('click', () => {
+      nav.classList.toggle('open');
+    });
+
+    /* Scroll-reveal observer */
+    const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => observer.observe(el));
+
+    /* Smooth scroll for anchor links */
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (!target) return;
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth' });
+        nav.classList.remove('open');
+      });
+    });
+
+    /* Parallax on hero logo */
+    const heroLogo = document.querySelector('.hero-logo');
+    window.addEventListener('scroll', () => {
+      if (!heroLogo) return;
+      const y = window.scrollY;
+      heroLogo.style.transform = `translateY(${y * 0.15}px)`;
+    }, { passive: true });
   </script>
-  <script>
-    (function () {
-      const OVERLAY_ID = 'welcome-splash-overlay';
-      const KEY = 'fermata_welcome_hidden';
-      const overlay = document.getElementById(OVERLAY_ID);
-      const microScreen = document.getElementById('micro-screen');
-      const aboutScreen = document.getElementById('aboutscreen');
-      const welcomeDoor = document.getElementById('welcomeDoor');
-      const MicroLogo = document.getElementById('side-info-footer');
-      
-      const ExpandArrow = document.getElementById('ExpandArrow')
-      const bangorBtn = document.getElementById('btn-bangorinas');
-      const microBtn = document.getElementById('information');
-      const ae1Btn = document.getElementById('ae1-btn');
-      const ae2Btn = document.getElementById('ae2-btn');
-      const microCloseBtn = document.getElementById('micro-close');
-      const donateBtn = document.getElementById('donate-btn');
-      const paypalBackBtn = document.getElementById('paypal-back');
-      const mainMenuBtn = document.getElementById('main-menu');
-      const contactBtn = document.getElementById('contact');
-      const contactBack = document.getElementById('contact-close');
-      const linkedinBtn = document.getElementById('linkedin');
-      const instagramBtn = document.getElementById('instagram'); 
-      const emailBtn = document.getElementById('email');
-      const whatsappBtn = document.getElementById('whatsapp');
-      const telegramBtn = document.getElementById('telegram');
-      const arcadeScreen = document.getElementById('arcade-screen');
-      const arcadeBtn = document.getElementById('play');
-      const arcadeCloseBtn = document.getElementById('arcade-close');
-      const paperBtn = document.getElementById('btn-paper');
-      const paper1Btn = document.getElementById('paper1-btn');
-      const paper2Btn = document.getElementById('paper2-btn');
-      const paper3Btn = document.getElementById('paper3-btn');
-      const paper4Btn = document.getElementById('paper4-btn');
-      const paperCloseBtn = document.getElementById('paper-close');
-      const endeavorBtn = document.getElementById('endeavor-btn');
-      const endeavorConfirmation = document.getElementById('endeavorConfirmation');
-      const confirmEndeavorBtn = document.getElementById('confirm-endeavor');
-      const cancelEndeavorBtn = document.getElementById('cancel-endeavor');
-      const effortBtn = document.getElementById('effort-btn');
-      const effortConfirmation = document.getElementById('effortConfirmation');
-      const confirmEffortBtn = document.getElementById('confirm-effort');
-      const cancelEffortBtn = document.getElementById('cancel-effort');
-      const aiCloseBtn = document.getElementById('ai-close');
-      const docsBtn = document.getElementById('docs');
-      const FreePalestineBtn = document.getElementById('Palestine');
-      const PalesBtn = document.getElementById('PalesBtn');
-      const FreePalestineCloseBtn = document.getElementById('FreePalestine-close');
-      const aboutBtn = document.getElementById('play');
-      const aboutCloseBtn = document.getElementById('about-close');
-      const threePedalsBtn = document.getElementById('three-pedals');
-      const bigLBtn = document.getElementById('big-l');
-      const UfoBtn = document.getElementById('Ufo-run');
-      const dinoBtn = document.getElementById('DinoBtn');
-      const dinoCloseBtn = document.getElementById('dino-close');
-      const musicproductionBtn = document.getElementById('btn-mp');
-      const spotifyclosebtn = document.getElementById('spotify-close');
-     
-     
-
-      function showMicro() {
-        if (!microScreen) return;
-        microScreen.style.display = '';
-        aboutScreen.style.display = 'none';
-        welcomeDoor.style.display = 'none';
-        MicroLogo.style.display = '';
-       
-      }
-
-      function showAbout() {
-        if (!aboutScreen) return;
-        aboutScreen.style.display = '';
-        welcomeDoor.style.display = 'none';
-        microScreen.style.display = 'none';
-       
-      
- 
-      }
-
-      function showDoor() {
-        if (!showDoor) return;
-        welcomeDoor.style.display = '';
-        microScreen.style.display = 'none';
-        aboutScreen.style.display = 'none';
-        MicroLogo.style.display = 'none';
-  
-
-      }
-
-
-      // Left button: enter main site (close splash)
-      if (bangorBtn) bangorBtn.addEventListener('click', function () {
-        window.open('/ai');
-      });
-
-     if (ae1Btn) {
-        ae1Btn.addEventListener('mouseenter', function () {
-          document.getElementById('side-info-content-1').classList.add('active');
-          document.getElementById('side-info-content-2').classList.remove('active');
-        });
-        ae1Btn.addEventListener('mouseleave', function () {
-          document.getElementById('side-info-content-1').classList.remove('active');
-
-        });
-      }
-
-      if (ae2Btn) {
-        ae2Btn.addEventListener('mouseenter', function () {
-          document.getElementById('side-info-content-2').classList.add('active');
-          document.getElementById('side-info-content-1').classList.remove('active');
-        });
-        ae2Btn.addEventListener('mouseleave', function () {
-          document.getElementById('side-info-content-2').classList.remove('active');
-        });
-      }
-
-      if (ae1Btn) ae1Btn.addEventListener('click', function () {
-        window.location.href = 'https://angel-eye.bangorinas.com/';
-      });
-
-    
-      if (ae2Btn) {
-        ae2Btn.addEventListener('click', function (e) {
-          window.open('https://ranggafermata.github.io/ae2-preview/', '_blank', 'noopener');
-        });
-      }
-
-      if (microCloseBtn) microCloseBtn.addEventListener('click', function () {
-        window.location.href = 'https://bangorinas.com/';
-      });
-
-
-      if (aboutBtn) {
-        aboutBtn.addEventListener('click', function () {
-          showAbout();
-        });
-      }
-
-      if (aboutCloseBtn) {
-        aboutCloseBtn.addEventListener('click', function () {
-          showMicro();
-        });
-      }
-
-      if (ExpandArrow) {
-        ExpandArrow.addEventListener('click', function () {
-          showMicro();
-        });
-      }
-
-
-    })();
-  </script>
-
 </body>
 </html>
 

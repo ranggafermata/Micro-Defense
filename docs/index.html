@@ -196,6 +196,81 @@
       box-shadow: 0 0 20px rgba(56,189,248,.15);
     }
 
+    /* Language selector */
+    .lang-selector {
+      position: relative;
+      margin-left: .5rem;
+    }
+    .lang-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(30,80,160,.25);
+      border-radius: 8px;
+      background: transparent;
+      cursor: pointer;
+      transition: all .3s;
+    }
+    .lang-btn img {
+      width: 30px;
+      height: 30px;
+      filter: brightness(.7);
+      transition: filter .3s;
+    }
+    .lang-btn:hover {
+      border-color: rgba(56,189,248,.4);
+      background: rgba(56,189,248,.08);
+    }
+    .lang-btn:hover img { filter: brightness(1); }
+
+    .lang-dropdown {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      min-width: 160px;
+      background: rgba(8,14,28,.97);
+      border: 1px solid rgba(30,80,160,.25);
+      border-radius: 10px;
+      padding: .5rem 0;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 12px 40px rgba(0,0,0,.5);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+      transition: opacity .25s, visibility .25s, transform .25s;
+      z-index: 1001;
+    }
+    .lang-dropdown.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .lang-dropdown a {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      padding: .6rem 1.2rem;
+      color: #8aa4c8;
+      text-decoration: none;
+      font-size: .82rem;
+      font-weight: 500;
+      letter-spacing: .5px;
+      transition: background .2s, color .2s;
+    }
+    .lang-dropdown a:hover {
+      background: rgba(56,189,248,.08);
+      color: #fff;
+    }
+    .lang-dropdown a.active {
+      color: #38bdf8;
+    }
+    .lang-dropdown a span.lang-flag {
+      font-size: 1.15rem;
+      line-height: 1;
+    }
+
     /* Mobile menu */
     .menu-toggle {
       display: none;
@@ -737,6 +812,7 @@
     @media (max-width: 700px) {
       .nav-links, .nav-cta { display: none; }
       .menu-toggle { display: flex; }
+      .lang-selector { margin-left: auto; margin-right: .5rem; }
       nav.open .nav-links {
         display: flex;
         flex-direction: column;
@@ -786,6 +862,19 @@
     <a href="https://angel-eye.bangorinas.com/" class="nav-cta" target="_blank" rel="noopener">
       Launch AE3 &rarr;
     </a>
+    <div class="lang-selector">
+      <button class="lang-btn" aria-label="Select Language" id="lang-toggle">
+        <img src="./assets/icons8-language-96.png" alt="Language" />
+      </button>
+      <div class="lang-dropdown" id="lang-dropdown">
+        <a href="#" class="active" onclick="return false;">
+          <span class="lang-flag">&#127468;&#127463;</span> English
+        </a>
+        <a href="./Ru/">
+          <span class="lang-flag">&#127479;&#127482;</span> Русский
+        </a>
+      </div>
+    </div>
     <button class="menu-toggle" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
@@ -1065,6 +1154,20 @@
       const y = window.scrollY;
       heroLogo.style.transform = `translateY(${y * 0.15}px)`;
     }, { passive: true });
+
+    /* Language dropdown toggle */
+    const langToggle = document.getElementById('lang-toggle');
+    const langDropdown = document.getElementById('lang-dropdown');
+    langToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      langDropdown.classList.toggle('open');
+    });
+    document.addEventListener('click', () => {
+      langDropdown.classList.remove('open');
+    });
+    langDropdown.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
   </script>
 </body>
 </html>

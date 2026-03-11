@@ -1,0 +1,1174 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Micro-Defense | Операции кибербезопасности Bangorinas</title>
+  <link rel="icon" type="image/png" href="../assets/MicroDefenseLogo.png" />
+  <meta name="description" content="Bangorinas Micro-Defense — командный центр кибербезопасности, часть семейства Bangorinas, созданный Рангга Хермаваном." />
+  <meta name="keywords" content="Bangorinas, Кибербезопасность, OSINT, Инструменты разведки угроз, TLE трекинг, Наблюдение Земли, Rangga Hermawan, Rangga Fermata, Angel's Eye, AE3, Micro-Defense, Инструменты безопасности" />
+  <meta name="author" content="Rangga Hermawan" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ════════════════════════════════════════
+       RESET & BASE
+       ════════════════════════════════════════ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #04060c;
+      color: #c8d6e5;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    h1, h2, h3, h4,
+    .nav-brand, .hero-badge {
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    /* ════════════════════════════════════════
+       SCROLLBAR
+       ════════════════════════════════════════ */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #0a0e1a; }
+    ::-webkit-scrollbar-thumb { background: #1a3a5c; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #2a5a8c; }
+
+    /* ════════════════════════════════════════
+       ANIMATED STAR FIELD BACKGROUND
+       ════════════════════════════════════════ */
+    #star-field {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      overflow: hidden;
+      background: radial-gradient(ellipse at 50% 0%, #0b1628 0%, #04060c 70%);
+    }
+    .star-layer {
+      position: absolute;
+      inset: 0;
+      background-repeat: repeat;
+    }
+    .star-layer-1 {
+      background-image:
+        radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,.7) 50%, transparent 50%),
+        radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,.5) 50%, transparent 50%),
+        radial-gradient(1px 1px at 50% 40%, rgba(255,255,255,.6) 50%, transparent 50%),
+        radial-gradient(1px 1px at 70% 10%, rgba(255,255,255,.4) 50%, transparent 50%),
+        radial-gradient(1px 1px at 90% 80%, rgba(255,255,255,.5) 50%, transparent 50%),
+        radial-gradient(1px 1px at 15% 85%, rgba(255,255,255,.3) 50%, transparent 50%),
+        radial-gradient(1px 1px at 60% 75%, rgba(255,255,255,.45) 50%, transparent 50%),
+        radial-gradient(1px 1px at 80% 35%, rgba(255,255,255,.55) 50%, transparent 50%);
+      background-size: 400px 400px;
+      animation: drift 120s linear infinite;
+    }
+    .star-layer-2 {
+      background-image:
+        radial-gradient(1.5px 1.5px at 25% 55%, rgba(120,180,255,.6) 50%, transparent 50%),
+        radial-gradient(1.5px 1.5px at 65% 25%, rgba(120,180,255,.4) 50%, transparent 50%),
+        radial-gradient(1.5px 1.5px at 85% 65%, rgba(120,180,255,.5) 50%, transparent 50%),
+        radial-gradient(1.5px 1.5px at 45% 90%, rgba(120,180,255,.35) 50%, transparent 50%);
+      background-size: 600px 600px;
+      animation: drift 200s linear infinite reverse;
+    }
+    .star-layer-3 {
+      background-image:
+        radial-gradient(2px 2px at 20% 70%, rgba(100,200,255,.8) 50%, transparent 50%),
+        radial-gradient(2px 2px at 75% 45%, rgba(100,200,255,.6) 50%, transparent 50%);
+      background-size: 800px 800px;
+      animation: twinkle 4s ease-in-out infinite alternate, drift 300s linear infinite;
+    }
+    @keyframes drift {
+      from { transform: translateY(0); }
+      to   { transform: translateY(-400px); }
+    }
+    @keyframes twinkle {
+      from { opacity: .4; }
+      to   { opacity: 1; }
+    }
+
+    /* ════════════════════════════════════════
+       GRID OVERLAY
+       ════════════════════════════════════════ */
+    #grid-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background-image:
+        linear-gradient(rgba(20,60,120,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(20,60,120,.06) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    /* ════════════════════════════════════════
+       NAVIGATION
+       ════════════════════════════════════════ */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      height: 70px;
+      background: rgba(4,6,12,.75);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(30,80,160,.2);
+      transition: background .3s, box-shadow .3s;
+    }
+    nav.scrolled {
+      background: rgba(4,6,12,.95);
+      box-shadow: 0 4px 30px rgba(0,100,255,.08);
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      text-decoration: none;
+      color: #fff;
+      font-size: .95rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .nav-brand img {
+      width: 38px;
+      height: 38px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: #8aa4c8;
+      text-decoration: none;
+      font-size: .8rem;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      position: relative;
+      transition: color .3s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #26a7b88f, #6563f1);
+      transition: width .3s;
+    }
+    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .55rem 1.4rem;
+      border: 1px solid rgba(56,189,248,.4);
+      border-radius: 6px;
+      background: transparent;
+      color: #38bdf8;
+      font-family: 'Orbitron', sans-serif;
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all .3s;
+    }
+    .nav-cta:hover {
+      background: rgba(56,189,248,.1);
+      box-shadow: 0 0 20px rgba(56,189,248,.15);
+    }
+
+    /* Language selector */
+    .lang-selector {
+      position: relative;
+      margin-left: .5rem;
+    }
+    .lang-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(30,80,160,.25);
+      border-radius: 8px;
+      background: transparent;
+      cursor: pointer;
+      transition: all .3s;
+    }
+    .lang-btn img {
+      width: 30px;
+      height: 30px;
+      filter: brightness(.7);
+      transition: filter .3s;
+    }
+    .lang-btn:hover {
+      border-color: rgba(56,189,248,.4);
+      background: rgba(56,189,248,.08);
+    }
+    .lang-btn:hover img { filter: brightness(1); }
+
+    .lang-dropdown {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      min-width: 160px;
+      background: rgba(8,14,28,.97);
+      border: 1px solid rgba(30,80,160,.25);
+      border-radius: 10px;
+      padding: .5rem 0;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 12px 40px rgba(0,0,0,.5);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+      transition: opacity .25s, visibility .25s, transform .25s;
+      z-index: 1001;
+    }
+    .lang-dropdown.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .lang-dropdown a {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      padding: .6rem 1.2rem;
+      color: #8aa4c8;
+      text-decoration: none;
+      font-size: .82rem;
+      font-weight: 500;
+      letter-spacing: .5px;
+      transition: background .2s, color .2s;
+    }
+    .lang-dropdown a:hover {
+      background: rgba(56,189,248,.08);
+      color: #fff;
+    }
+    .lang-dropdown a.active {
+      color: #38bdf8;
+    }
+    .lang-dropdown a span.lang-flag {
+      font-size: 1.15rem;
+      line-height: 1;
+    }
+
+    /* Mobile menu */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .menu-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #8aa4c8;
+      border-radius: 2px;
+      transition: all .3s;
+    }
+
+    /* ════════════════════════════════════════
+       HERO SECTION
+       ════════════════════════════════════════ */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .4rem 1.2rem;
+      border: 1px solid rgba(56,189,248,.25);
+      border-radius: 100px;
+      font-size: .65rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #38bdf8;
+      margin-bottom: 2rem;
+      animation: fadeSlideUp .8s ease-out;
+    }
+    .hero-badge .dot {
+      width: 6px;
+      height: 6px;
+      background: #22c55e;
+      border-radius: 50%;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,.6); }
+      50%       { box-shadow: 0 0 0 6px rgba(34,197,94,0); }
+    }
+
+    .hero-logo {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 2rem;
+      filter: drop-shadow(0 0 40px rgba(56,189,248,.25));
+      animation: fadeSlideUp .8s ease-out .1s backwards, float 6s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-10px); }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 900;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #fffefe 0%, #c7d2d4 50%, #d2e4f3 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      animation: fadeSlideUp .8s ease-out .2s backwards;
+    }
+    .hero .subtitle {
+      font-size: clamp(.9rem, 2vw, 1.15rem);
+      color: #6b8ab5;
+      max-width: 600px;
+      margin-bottom: 2.5rem;
+      animation: fadeSlideUp .8s ease-out .35s backwards;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeSlideUp .8s ease-out .5s backwards;
+    }
+
+    .btn-primary-glow {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .8rem 2rem;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #1dd2d8, #530d81);
+      color: #fff;
+      font-family: 'Orbitron', sans-serif;
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all .3s;
+      box-shadow: 0 0 30px rgba(99,102,241,.2);
+    }
+    .btn-primary-glow:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 40px rgba(99,102,241,.4);
+    }
+    .btn-outline-sf {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .8rem 2rem;
+      border: 1px solid rgba(56,189,248,.3);
+      border-radius: 8px;
+      background: transparent;
+      color: #38bdf8;
+      font-family: 'Orbitron', sans-serif;
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all .3s;
+    }
+    .btn-outline-sf:hover {
+      background: rgba(56,189,248,.08);
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px rgba(56,189,248,.15);
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .5rem;
+      animation: fadeSlideUp .8s ease-out .7s backwards;
+    }
+    .scroll-indicator span {
+      font-size: .6rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #4a6a8a;
+    }
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, #38bdf8, transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 1; transform: scaleY(1); }
+      50%      { opacity: .3; transform: scaleY(.5); }
+    }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ════════════════════════════════════════
+       SCROLL REVEAL ANIMATIONS
+       ════════════════════════════════════════ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-60px);
+      transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);
+    }
+    .reveal-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(60px);
+      transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);
+    }
+    .reveal-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Stagger children */
+    .stagger > * { transition-delay: calc(var(--i,0) * .1s); }
+
+    /* ════════════════════════════════════════
+       SECTION LAYOUT
+       ════════════════════════════════════════ */
+    section {
+      padding: 6rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: .65rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #38bdf8;
+      margin-bottom: .75rem;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: #e8f0fe;
+      margin-bottom: 1rem;
+    }
+    .section-desc {
+      font-size: 1rem;
+      color: #6b8ab5;
+      max-width: 650px;
+      margin-bottom: 3rem;
+    }
+
+    /* ════════════════════════════════════════
+       DIVIDER LINE (between sections)
+       ════════════════════════════════════════ */
+    .section-divider {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .section-divider hr {
+      border: none;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, rgba(56,189,248,.2) 50%, transparent 100%);
+    }
+
+    /* ════════════════════════════════════════
+       CAPABILITIES / FEATURE CARDS
+       ════════════════════════════════════════ */
+    .capabilities-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .cap-card {
+      background: rgba(10,18,36,.6);
+      border: 1px solid rgba(30,80,160,.15);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: all .4s;
+      position: relative;
+      overflow: hidden;
+    }
+    .cap-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+      opacity: 0;
+      transition: opacity .4s;
+    }
+    .cap-card:hover {
+      border-color: rgba(56,189,248,.25);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 40px rgba(0,80,200,.1);
+    }
+    .cap-card:hover::before { opacity: 1; }
+    .cap-icon {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      background: rgba(56,189,248,.08);
+      margin-bottom: 1.25rem;
+      font-size: 1.3rem;
+    }
+    .cap-card h3 {
+      font-size: .95rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #e8f0fe;
+      margin-bottom: .6rem;
+    }
+    .cap-card p {
+      font-size: .85rem;
+      color: #6b8ab5;
+      line-height: 1.6;
+    }
+
+    /* ════════════════════════════════════════
+       PRODUCT SHOWCASE (Angel's Eye)
+       ════════════════════════════════════════ */
+    .showcase {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .showcase-visual {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(30,80,160,.2);
+      cursor: pointer;
+      transition: transform .4s, box-shadow .4s;
+    }
+    .showcase-visual:hover {
+      transform: scale(1.02);
+      box-shadow: 0 20px 60px rgba(0,80,200,.15);
+    }
+    .showcase-visual img {
+      width: 100%;
+      display: block;
+    }
+    .showcase-glow {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(56,189,248,.08), transparent 60%);
+      pointer-events: none;
+    }
+    .showcase-text h3 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #e8f0fe;
+      margin-bottom: 1rem;
+    }
+    .showcase-text p {
+      font-size: .95rem;
+      color: #6b8ab5;
+      margin-bottom: 1.5rem;
+    }
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin-bottom: 1.5rem;
+    }
+    .tag {
+      padding: .3rem .8rem;
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border: 1px solid rgba(56,189,248,.2);
+      border-radius: 100px;
+      color: #38bdf8;
+      background: rgba(56,189,248,.05);
+    }
+
+    /* ════════════════════════════════════════
+       STATS BAR
+       ════════════════════════════════════════ */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 2rem;
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .stat-item {
+      text-align: center;
+    }
+    .stat-number {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #cccdce, #b1b1b9);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label {
+      font-size: .75rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #4a6a8a;
+      margin-top: .25rem;
+    }
+
+    /* ════════════════════════════════════════
+       ABOUT SECTION
+       ════════════════════════════════════════ */
+    .about-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .about-text p {
+      font-size: .95rem;
+      color: #6b8ab5;
+      margin-bottom: 1.25rem;
+    }
+    .about-highlights {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .highlight-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.25rem;
+      border: 1px solid rgba(30,80,160,.12);
+      border-radius: 10px;
+      background: rgba(10,18,36,.4);
+      transition: border-color .3s, transform .3s;
+    }
+    .highlight-item:hover {
+      border-color: rgba(56,189,248,.25);
+      transform: translateX(4px);
+    }
+    .highlight-icon {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: rgba(56,189,248,.08);
+      font-size: 1.1rem;
+    }
+    .highlight-item h4 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #e8f0fe;
+      margin-bottom: .25rem;
+    }
+    .highlight-item p {
+      font-size: .82rem;
+      color: #5a7a9a;
+      line-height: 1.5;
+    }
+
+    /* ════════════════════════════════════════
+       CONTACT / CTA
+       ════════════════════════════════════════ */
+    .cta-section {
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+    }
+    .cta-section h2 {
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: #e8f0fe;
+      margin-bottom: 1rem;
+    }
+    .cta-section p {
+      color: #6b8ab5;
+      max-width: 550px;
+      margin: 0 auto 2rem;
+    }
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .social-link {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(30,80,160,.2);
+      border-radius: 10px;
+      background: rgba(10,18,36,.5);
+      transition: all .3s;
+    }
+    .social-link img {
+      width: 22px;
+      height: 22px;
+      filter: brightness(.7);
+      transition: filter .3s;
+    }
+    .social-link:hover {
+      border-color: rgba(56,189,248,.4);
+      background: rgba(56,189,248,.08);
+      transform: translateY(-3px);
+    }
+    .social-link:hover img {
+      filter: brightness(1);
+    }
+
+    /* ════════════════════════════════════════
+       FOOTER
+       ════════════════════════════════════════ */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid rgba(30,80,160,.12);
+      font-size: .75rem;
+      color: #3a5a7a;
+    }
+    footer a {
+      color: #38bdf8;
+      text-decoration: none;
+    }
+    footer a:hover { text-decoration: underline; }
+
+    /* ════════════════════════════════════════
+       RESPONSIVE
+       ════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      .showcase { grid-template-columns: 1fr; }
+      .about-content { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 700px) {
+      .nav-links, .nav-cta { display: none; }
+      .menu-toggle { display: flex; }
+      .lang-selector { margin-left: auto; margin-right: .5rem; }
+      nav.open .nav-links {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: rgba(4,6,12,.97);
+        padding: 2rem;
+        gap: 1.5rem;
+        border-bottom: 1px solid rgba(30,80,160,.2);
+      }
+      nav.open .nav-cta {
+        display: inline-flex;
+        position: absolute;
+        top: calc(70px + var(--mobile-links-h, 200px));
+      }
+      .hero h1 { letter-spacing: 2px; }
+      section { padding: 4rem 1.25rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ── Star field background ── -->
+  <div id="star-field">
+    <div class="star-layer star-layer-1"></div>
+    <div class="star-layer star-layer-2"></div>
+    <div class="star-layer star-layer-3"></div>
+  </div>
+  <div id="grid-overlay"></div>
+
+  <!-- ══════════════════════════════════════
+       NAVIGATION
+       ══════════════════════════════════════ -->
+  <nav id="main-nav">
+    <a href="#" class="nav-brand">
+      <img src="../assets/MicroDefenseLogo.png" alt="Micro-Defense" />
+      <span>Micro-Defense</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#capabilities">Возможности</a></li>
+      <li><a href="#flagship">Флагман</a></li>
+      <li><a href="#about">О нас</a></li>
+      <li><a href="#contact">Контакт</a></li>
+    </ul>
+    <a href="https://angel-eye.bangorinas.com/" class="nav-cta" target="_blank" rel="noopener">
+      Запустить AE3 &rarr;
+    </a>
+    <div class="lang-selector">
+      <button class="lang-btn" aria-label="Выбрать язык" id="lang-toggle">
+        <img src="../assets/icons8-language-96.png" alt="Язык" />
+      </button>
+      <div class="lang-dropdown" id="lang-dropdown">
+        <a href="../">
+          <span class="lang-flag">&#127468;&#127463;</span> English
+        </a>
+        <a href="#" class="active" onclick="return false;">
+          <span class="lang-flag">&#127479;&#127482;</span> Русский
+        </a>
+      </div>
+    </div>
+    <button class="menu-toggle" aria-label="Меню">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ══════════════════════════════════════
+       HERO
+       ══════════════════════════════════════ -->
+  <section class="hero" id="hero">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Системы в работе
+    </div>
+    <img src="../assets/MicroDefenseLogo.png" alt="Логотип Micro-Defense" class="hero-logo" />
+    <h1>Micro-Defense</h1>
+    <p class="subtitle">
+      Центр операций кибербезопасности Bangorinas — продвинутая разведка угроз,
+      наблюдение в реальном времени и операции безопасности на основе OSINT.
+    </p>
+    <div class="hero-actions">
+      <a href="https://angel-eye.bangorinas.com/" class="btn-primary-glow" target="_blank" rel="noopener">
+        &#9670; Доступ к Angel's Eye 3
+      </a>
+      <a href="#about" class="btn-outline-sf">
+        &#9671; Узнать больше
+      </a>
+    </div>
+    <div class="scroll-indicator">
+      <span>Прокрутка</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       STATS
+       ══════════════════════════════════════ -->
+  <div class="stats-bar reveal">
+    <div class="stat-item">
+      <div class="stat-number">24/7</div>
+      <div class="stat-label">Мониторинг операций</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">AE3</div>
+      <div class="stat-label">Флагманская платформа</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">OSINT</div>
+      <div class="stat-label">Разведка данных</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">ГЛОБАЛЬНО</div>
+      <div class="stat-label">Охват угроз</div>
+    </div>
+  </div>
+
+  <div class="section-divider"><hr /></div>
+
+  <!-- ══════════════════════════════════════
+       CAPABILITIES
+       ══════════════════════════════════════ -->
+  <section id="capabilities">
+    <div class="section-label reveal">Операционные возможности</div>
+    <h2 class="section-title reveal">Системы защиты</h2>
+    <p class="section-desc reveal">
+      Комплексные операции кибербезопасности, охватывающие разведку угроз,
+      цифровое наблюдение и проактивные механизмы защиты.
+    </p>
+    <div class="capabilities-grid stagger">
+      <div class="cap-card reveal" style="--i:0">
+        <div class="cap-icon">&#128752;</div>
+        <h3>Разведка угроз</h3>
+        <p>Анализ угроз на основе ИИ и обнаружение киберугроз в реальном времени для опережения противников в цифровом пространстве.</p>
+      </div>
+      <div class="cap-card reveal" style="--i:1">
+        <div class="cap-icon">&#127758;</div>
+        <h3>IP-геолокация</h3>
+        <p>Картографирование IP-адресов и отслеживание геолокации в реальном времени для комплексной сетевой разведки и определения источников угроз.</p>
+      </div>
+      <div class="cap-card reveal" style="--i:2">
+        <div class="cap-icon">&#128752;</div>
+        <h3>TLE-трекинг спутников</h3>
+        <p>Орбитальное отслеживание по двухстрочным элементам для ситуационной осведомлённости в космосе и спутниковой разведки.</p>
+      </div>
+      <div class="cap-card reveal" style="--i:3">
+        <div class="cap-icon">&#9992;</div>
+        <h3>ADS-B авиаразведка</h3>
+        <p>Наблюдение за авиацией в реальном времени с помощью отслеживания сигналов ADS-B для воздушной ситуационной осведомлённости.</p>
+      </div>
+      <div class="cap-card reveal" style="--i:4">
+        <div class="cap-icon">&#128225;</div>
+        <h3>Обзор радиосигналов</h3>
+        <p>Возможности программно-определяемого радио для радиоразведки и мониторинга электромагнитного спектра.</p>
+      </div>
+      <div class="cap-card reveal" style="--i:5">
+        <div class="cap-icon">&#128248;</div>
+        <h3>Прямые трансляции камер</h3>
+        <p>Агрегация потоков данных с публичных камер для визуальной разведки в реальном времени и наблюдения за окружающей обстановкой.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"><hr /></div>
+
+  <!-- ══════════════════════════════════════
+       FLAGSHIP PRODUCT
+       ══════════════════════════════════════ -->
+  <section id="flagship">
+    <div class="section-label reveal">Флагманская платформа</div>
+    <h2 class="section-title reveal">Angel's Eye 3</h2>
+    <p class="section-desc reveal">
+      Передовая платформа OSINT и разведки киберугроз, обеспечивающая операции Micro-Defense.
+    </p>
+    <div class="showcase">
+      <a href="https://angel-eye.bangorinas.com/" target="_blank" rel="noopener" class="showcase-visual reveal-left">
+        <img src="../assets/ae3Banner.png" alt="Баннер Angel's Eye 3" />
+        <div class="showcase-glow"></div>
+      </a>
+      <div class="showcase-text reveal-right">
+        <h3>Кибер-разведка нового поколения</h3>
+        <p>
+          Angel's Eye 3 (AE3) — это передовая платформа OSINT и разведки киберугроз,
+          разработанная для пользователей любого уровня подготовки. Используя картографирование IP
+          в реальном времени, анализ угроз на основе ИИ, TLE-трекинг, обзор радиосигналов,
+          отслеживание авиации ADS-B и потоки данных с публичных камер — AE3 позволяет
+          пользователям проактивно выявлять и нейтрализовывать киберугрозы, повышая
+          ситуационную осведомлённость.
+        </p>
+        <div class="tag-list">
+          <span class="tag">OSINT</span>
+          <span class="tag">Разведка угроз</span>
+          <span class="tag">IP-карта</span>
+          <span class="tag">TLE-трекинг</span>
+          <span class="tag">ADS-B</span>
+          <span class="tag">Радио</span>
+        </div>
+        <a href="https://angel-eye.bangorinas.com/" class="btn-primary-glow" target="_blank" rel="noopener">
+          Запустить AE3 &rarr;
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"><hr /></div>
+
+  <!-- ══════════════════════════════════════
+       ABOUT
+       ══════════════════════════════════════ -->
+  <section id="about">
+    <div class="section-label reveal">О подразделении</div>
+    <h2 class="section-title reveal">Bangorinas | Micro-Defense</h2>
+    <div class="about-content">
+      <div class="about-text reveal-left">
+        <p>
+          Bangorinas | Micro-Defense — подразделение кибербезопасности Bangorinas,
+          целью которого является усиление мер безопасности с помощью передовых решений, ориентированных на защиту.
+        </p>
+        <p>
+          Micro-Defense сосредоточен на предоставлении инструментов и сервисов продвинутой разведки угроз
+          для укрепления вашей безопасности с помощью инновационных подходов, ставящих безопасность на первое место.
+        </p>
+        <p>
+          Стремясь к инновациям и совершенству, Micro-Defense нацелен стать надёжным
+          партнёром в постоянно меняющемся мире кибербезопасности.
+        </p>
+      </div>
+      <div class="about-highlights reveal-right">
+        <div class="highlight-item">
+          <div class="highlight-icon">&#9883;</div>
+          <div>
+            <h4>Критически важная безопасность</h4>
+            <p>Обеспечение операций кибербезопасности корпоративного уровня с военной точностью и надёжностью.</p>
+          </div>
+        </div>
+        <div class="highlight-item">
+          <div class="highlight-icon">&#9881;</div>
+          <div>
+            <h4>Инновации прежде всего</h4>
+            <p>Внедрение новых подходов в OSINT, разведке угроз и цифровом наблюдении.</p>
+          </div>
+        </div>
+        <div class="highlight-item">
+          <div class="highlight-icon">&#127760;</div>
+          <div>
+            <h4>Глобальная осведомлённость</h4>
+            <p>Комплексный охват от наземных сетей до орбитального отслеживания спутников.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"><hr /></div>
+
+  <!-- ══════════════════════════════════════
+       CONTACT / CTA
+       ══════════════════════════════════════ -->
+  <section class="cta-section" id="contact">
+    <div class="section-label reveal">Свяжитесь с нами</div>
+    <h2 class="reveal">Готовы повысить свою безопасность?</h2>
+    <p class="reveal">Свяжитесь с командой Micro-Defense или исследуйте наши платформы.</p>
+    <div class="hero-actions reveal" style="margin-bottom: 2rem;">
+      <a href="https://angel-eye.bangorinas.com/" class="btn-primary-glow" target="_blank" rel="noopener">
+        &#9670; Запустить AE3
+      </a>
+      <a href="https://bangorinas.com/" class="btn-outline-sf" target="_blank" rel="noopener">
+        &#9671; Посетить Bangorinas
+      </a>
+    </div>
+    <div class="social-links reveal">
+      <a href="https://www.linkedin.com/in/ranggafermata" class="social-link" target="_blank" rel="noopener" title="LinkedIn">
+        <img src="../assets/linkedin.png" alt="LinkedIn" />
+      </a>
+      <a href="https://www.instagram.com/ranggafermata" class="social-link" target="_blank" rel="noopener" title="Instagram">
+        <img src="../assets/instagram.png" alt="Instagram" />
+      </a>
+      <a href="mailto:bangorinas@gmail.com" class="social-link" title="Эл. почта">
+        <img src="../assets/email.png" alt="Эл. почта" />
+      </a>
+      <a href="https://t.me/ranggafermata" class="social-link" target="_blank" rel="noopener" title="Telegram">
+        <img src="../assets/telegram.png" alt="Telegram" />
+      </a>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       FOOTER
+       ══════════════════════════════════════ -->
+  <footer>
+    &copy; <span id="year"></span> Bangorinas | Micro-Defense &mdash; Часть семейства
+    <a href="https://bangorinas.com/" target="_blank" rel="noopener">Bangorinas</a>. Все права защищены.
+  </footer>
+
+  <!-- ══════════════════════════════════════
+       SCRIPTS
+       ══════════════════════════════════════ -->
+  <script>
+    /* Year */
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    /* Nav scroll effect */
+    const nav = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 50);
+    }, { passive: true });
+
+    /* Mobile menu toggle */
+    document.querySelector('.menu-toggle').addEventListener('click', () => {
+      nav.classList.toggle('open');
+    });
+
+    /* Scroll-reveal observer */
+    const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => observer.observe(el));
+
+    /* Smooth scroll for anchor links */
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (!target) return;
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth' });
+        nav.classList.remove('open');
+      });
+    });
+
+    /* Parallax on hero logo */
+    const heroLogo = document.querySelector('.hero-logo');
+    window.addEventListener('scroll', () => {
+      if (!heroLogo) return;
+      const y = window.scrollY;
+      heroLogo.style.transform = `translateY(${y * 0.15}px)`;
+    }, { passive: true });
+
+    /* Language dropdown toggle */
+    const langToggle = document.getElementById('lang-toggle');
+    const langDropdown = document.getElementById('lang-dropdown');
+    langToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      langDropdown.classList.toggle('open');
+    });
+    document.addEventListener('click', () => {
+      langDropdown.classList.remove('open');
+    });
+    langDropdown.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+  </script>
+</body>
+</html>

@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Micro-Defense | Bangorinas Cybersecurity Operations</title>
+  <title>Bangorinas | Cyber Recon</title>
   <link rel="icon" type="image/png" href="./assets/MicroDefenseLogo.png" />
-  <meta name="description" content="Bangorinas Micro-Defense is a cybersecurity command center part of Bangorinas family created by Rangga Hermawan." />
-  <meta name="keywords" content="Bangorinas, Cybersecurity, OSINT, Threat Intelligence Tools, TLE Tracking, Earth observation, Rangga Hermawan, Rangga Fermata, Angel's Eye, AE3, Micro-Defense, Security Tools" />
+  <meta name="description" content="Bangorinas | Cyber Recon is a cyberintelligence command center part of Bangorinas family created by Rangga Hermawan." />
+  <meta name="keywords" content="Bangorinas, Cybersecurity, Cyberintelligence, IntelOps, OSINT, Threat Intelligence Tools, TLE Tracking, Earth observation, Rangga Hermawan, Rangga Fermata, Angel's Eye, AE3, Micro-Defense, Security Tools" />
   <meta name="author" content="Rangga Hermawan" />
 
   <!-- Fonts -->
@@ -302,22 +302,22 @@
     .hero-badge {
       display: inline-flex; align-items: center; gap: .6rem;
       padding: .35rem 1.1rem;
-      border: 1px solid rgba(0,255,106,.2);
+      border: 1px solid rgba(0, 238, 255, 0.2);
       clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px), 0 8px);
       font-family: var(--mono); font-size: .6rem; font-weight: 400;
       letter-spacing: 2.5px; text-transform: uppercase;
-      color: var(--green);
-      background: rgba(0,255,106,.04);
+      color: var(--white);
+      background: rgba(0,240,255,.04);
       margin-bottom: 2rem;
       animation: fadeSlideUp .8s ease-out;
     }
     .hero-badge .dot {
-      width: 6px; height: 6px; background: var(--green);
+      width: 6px; height: 6px; background: var(--white);
       border-radius: 50%; animation: pulse-dot 2s ease-in-out infinite;
     }
     @keyframes pulse-dot {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(0,255,106,.5); }
-      50%       { box-shadow: 0 0 0 8px rgba(0,255,106,0); }
+      0%, 100% { box-shadow: 0 0 0 0 rgba(0,240,255,.5); }
+      50%       { box-shadow: 0 0 0 8px rgba(0,240,255,0); }
     }
 
     .hero-logo {
@@ -725,6 +725,15 @@
     .social-link:hover img { filter: brightness(.9) saturate(.3); }
 
     /* ═══════════════════════════════════════════
+       3D CYBER GLOBE
+       ═══════════════════════════════════════════ */
+    #cyber-globe {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ═══════════════════════════════════════════
        FOOTER
        ═══════════════════════════════════════════ */
     footer {
@@ -777,8 +786,8 @@
        ══════════════════════════════════════ -->
   <nav id="main-nav">
     <a href="#" class="nav-brand">
-      <img src="./assets/MicroDefenseLogo.png" alt="Micro-Defense" />
-      <span>Micro-Defense</span>
+      <img src="./assets/MicroDefenseLogo.png" alt="Cyber Recon" />
+      <span>Cyber Recon</span>
     </a>
     <ul class="nav-links">
       <li><a href="#capabilities">Capabilities</a></li>
@@ -786,7 +795,7 @@
       <li><a href="#about">About</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <a href="https://angel-eye.bangorinas.com/" class="nav-cta" target="_blank" rel="noopener">
+    <a href="./angel-eye/" class="nav-cta" target="_blank" rel="noopener">
       Launch AE3 &rarr;
     </a>
     <div class="lang-selector">
@@ -813,16 +822,17 @@
   <section class="hero" id="hero">
     <div class="hero-badge">
       <span class="dot"></span>
-      Systems Operational
+      Bangorinas
     </div>
-    <img src="./assets/MicroDefenseLogo.png" alt="Micro-Defense Logo" class="hero-logo" />
-    <h1>Micro-Defense</h1>
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+        <canvas id="cyber-globe"></canvas>
+      </div>
+      <h1>Cyber Recon</h1>
     <p class="subtitle">
-      Bangorinas Cybersecurity Operations Center — Advanced threat intelligence,
-      real-time surveillance, and OSINT-driven security operations.
+      Advanced threat intelligence, real-time surveillance, and OSINT-driven security operations.
     </p>
     <div class="hero-actions">
-      <a href="https://angel-eye.bangorinas.com/" class="btn-primary-glow" target="_blank" rel="noopener">
+      <a href="./angel-eye/" class="btn-primary-glow" target="_blank" rel="noopener">
         &#9670; Access Angel's Eye 3
       </a>
       <a href="#about" class="btn-outline-sf">
@@ -864,10 +874,10 @@
        ══════════════════════════════════════ -->
   <section id="capabilities">
     <div class="section-label reveal">Operational Capabilities</div>
-    <h2 class="section-title reveal">Defense Systems</h2>
+    <h2 class="section-title reveal">Digital Sentinel Systems</h2>
     <p class="section-desc reveal">
-      Comprehensive cybersecurity operations spanning threat intelligence,
-      digital surveillance, and proactive defense mechanisms.
+      Comprehensive cyberintelligence operations spanning threat intelligence,
+      digital surveillance, and robust mechanisms.
     </p>
     <div class="capabilities-grid stagger">
       <div class="cap-card reveal" style="--i:0">
@@ -921,7 +931,7 @@
       The cutting-edge OSINT &amp; Cyber Threat Intelligence platform powering Micro-Defense operations.
     </p>
     <div class="showcase">
-      <a href="https://angel-eye.bangorinas.com/" target="_blank" rel="noopener" class="showcase-visual reveal-left">
+      <a href="./angel-eye/" target="_blank" rel="noopener" class="showcase-visual reveal-left">
         <img src="./assets/ae3Banner.png" alt="Angel's Eye 3 Banner" />
         <div class="showcase-glow"></div>
       </a>
@@ -942,7 +952,7 @@
           <span class="tag">ADS-B</span>
           <span class="tag">Radio</span>
         </div>
-        <a href="https://angel-eye.bangorinas.com/" class="btn-primary-glow" target="_blank" rel="noopener">
+        <a href="./angel-eye/" class="btn-primary-glow" target="_blank" rel="noopener">
           Launch AE3 &rarr;
         </a>
       </div>
@@ -956,19 +966,19 @@
        ══════════════════════════════════════ -->
   <section id="about">
     <div class="section-label reveal">About The Division</div>
-    <h2 class="section-title reveal">Bangorinas | Micro-Defense</h2>
+    <h2 class="section-title reveal">Bangorinas | Cyber Recon</h2>
     <div class="about-content">
       <div class="about-text reveal-left">
         <p>
-          Bangorinas | Micro-Defense is a cybersecurity operations division of Bangorinas,
-          with the goal of enhancing security measures through cutting-edge, security-driven solutions.
+          Bangorinas | Cyber Recon is a cyberintelligence operations division of Bangorinas,
+          with the goal of enhancing digital sentinels through cutting-edge, intelligence-driven solutions.
         </p>
         <p>
-          Micro-Defense focuses on providing advanced threat intelligence tools and services
+          Cyber Recon focuses on providing advanced threat intelligence tools and services
           to strengthen your security posture through innovative, security-first approaches.
         </p>
         <p>
-          With a commitment to innovation and excellence, Micro-Defense aims to be a trusted
+          With a commitment to innovation and excellence, Cyber Recon aims to be a trusted
           partner in the ever-evolving landscape of cybersecurity.
         </p>
       </div>
@@ -1005,10 +1015,10 @@
        ══════════════════════════════════════ -->
   <section class="cta-section" id="contact">
     <div class="section-label reveal">Get In Touch</div>
-    <h2 class="reveal">Ready to Elevate Your Security?</h2>
-    <p class="reveal">Connect with the Micro-Defense team or explore our platforms.</p>
+    <h2 class="reveal">Ready to Elevate Your Digital Sentinel?</h2>
+    <p class="reveal">Connect with the Cyber Recon team or explore our platforms.</p>
     <div class="hero-actions reveal" style="margin-bottom: 2rem;">
-      <a href="https://angel-eye.bangorinas.com/" class="btn-primary-glow" target="_blank" rel="noopener">
+      <a href="./angel-eye/" class="btn-primary-glow" target="_blank" rel="noopener">
         &#9670; Launch AE3
       </a>
       <a href="https://bangorinas.com/" class="btn-outline-sf" target="_blank" rel="noopener">
@@ -1035,7 +1045,7 @@
        FOOTER
        ══════════════════════════════════════ -->
   <footer>
-    &copy; <span id="year"></span> Bangorinas | Micro-Defense &mdash; Part of
+    &copy; <span id="year"></span> Bangorinas | Cyber Recon &mdash; Part of
     <a href="https://bangorinas.com/" target="_blank" rel="noopener">Bangorinas</a> family. All rights reserved.
   </footer>
 
@@ -1104,6 +1114,159 @@
       langDropdown.addEventListener('click', (e) => {
         e.stopPropagation();
       });
+    }
+
+    /* Particle Sphere Effect */
+    class ParticleSphere {
+      constructor(canvas) {
+        this.canvas = canvas;
+        this.ctx = canvas.getContext('2d', { alpha: true });
+        this.mouse = { x: 0, y: 0 };
+        
+        // Particle configuration
+        this.PARTICLE_COUNT = 350;
+        this.SPHERE_RADIUS = 300;
+        this.ROTATION_SPEED = 0.003;
+        this.MOUSE_INFLUENCE = 0.8;
+        this.accent = [0, 240, 255]; // Cyan from --cyan color
+        
+        this.particles = [];
+        this.angleX = 0;
+        this.angleY = 0;
+        this.time = 0;
+        
+        this.resizeCanvas();
+        this.createParticles();
+        this.setupEventListeners();
+        
+        this.animate = this.animate.bind(this);
+        this.animate();
+      }
+
+      resizeCanvas() {
+        const dpr = window.devicePixelRatio || 1;
+        const rect = this.canvas.parentElement.getBoundingClientRect();
+        this.width = rect.width;
+        this.height = rect.height;
+        this.canvas.width = this.width * dpr;
+        this.canvas.height = this.height * dpr;
+        this.canvas.style.width = this.width + 'px';
+        this.canvas.style.height = this.height + 'px';
+        this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      createParticles() {
+        this.particles = [];
+        for (let i = 0; i < this.PARTICLE_COUNT; i++) {
+          // Fibonacci sphere for even distribution
+          const phi = Math.acos(1 - (2 * (i + 0.5)) / this.PARTICLE_COUNT);
+          const theta = Math.PI * (1 + Math.sqrt(5)) * i;
+          this.particles.push({
+            x: Math.sin(phi) * Math.cos(theta),
+            y: Math.sin(phi) * Math.sin(theta),
+            z: Math.cos(phi),
+            baseSize: 1 + Math.random() * 1.5,
+            pulse: Math.random() * Math.PI * 2,
+            pulseSpeed: 0.01 + Math.random() * 0.02,
+          });
+        }
+      }
+
+      setupEventListeners() {
+        window.addEventListener('resize', () => this.resizeCanvas());
+        
+        this.canvas.addEventListener('mousemove', (e) => {
+          const rect = this.canvas.getBoundingClientRect();
+          this.mouse.x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+          this.mouse.y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+        });
+      }
+
+      animate() {
+        this.time++;
+        this.ctx.clearRect(0, 0, this.width, this.height);
+
+        const mx = this.mouse.x * this.MOUSE_INFLUENCE;
+        const my = this.mouse.y * this.MOUSE_INFLUENCE;
+        this.angleY += this.ROTATION_SPEED + mx * 0.01;
+        this.angleX += my * 0.005;
+
+        const cosY = Math.cos(this.angleY), sinY = Math.sin(this.angleY);
+        const cosX = Math.cos(this.angleX), sinX = Math.sin(this.angleX);
+
+        const cx = this.width / 2;
+        const cy = this.height / 2;
+
+        // Project particles and sort by depth
+        const projected = this.particles.map((p) => {
+          // Rotate Y
+          let x = p.x * cosY - p.z * sinY;
+          let z = p.x * sinY + p.z * cosY;
+          let y = p.y;
+          // Rotate X
+          let y2 = y * cosX - z * sinX;
+          let z2 = y * sinX + z * cosX;
+
+          const scale = 1 / (1 + z2 * 0.3); // perspective
+          const px = cx + x * this.SPHERE_RADIUS * scale;
+          const py = cy + y2 * this.SPHERE_RADIUS * scale;
+          const depth = (z2 + 1) / 2; // 0..1
+
+          p.pulse += p.pulseSpeed;
+          const pulse = 0.5 + 0.5 * Math.sin(p.pulse);
+          const size = p.baseSize * scale * (0.8 + pulse * 0.4);
+          const alpha = (0.15 + depth * 0.7) * (0.7 + pulse * 0.3);
+
+          return { px, py, size, alpha, depth };
+        });
+
+        projected.sort((a, b) => a.depth - b.depth);
+
+        // Draw particles
+        for (const pt of projected) {
+          this.ctx.beginPath();
+          this.ctx.arc(pt.px, pt.py, pt.size, 0, Math.PI * 2);
+          this.ctx.fillStyle = `rgba(${this.accent[0]}, ${this.accent[1]}, ${this.accent[2]}, ${pt.alpha})`;
+          this.ctx.fill();
+
+          // Glow for front particles
+          if (pt.depth > 0.6) {
+            this.ctx.beginPath();
+            this.ctx.arc(pt.px, pt.py, pt.size * 3, 0, Math.PI * 2);
+            const g = this.ctx.createRadialGradient(pt.px, pt.py, 0, pt.px, pt.py, pt.size * 3);
+            g.addColorStop(0, `rgba(${this.accent[0]}, ${this.accent[1]}, ${this.accent[2]}, ${pt.alpha * 0.15})`);
+            g.addColorStop(1, 'rgba(0,0,0,0)');
+            this.ctx.fillStyle = g;
+            this.ctx.fill();
+          }
+        }
+
+        // Draw connecting lines between nearby front particles
+        const frontParticles = projected.filter(p => p.depth > 0.5);
+        for (let i = 0; i < frontParticles.length; i++) {
+          for (let j = i + 1; j < frontParticles.length; j++) {
+            const a = frontParticles[i], b = frontParticles[j];
+            const dx = a.px - b.px, dy = a.py - b.py;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 40) {
+              const lineAlpha = (1 - dist / 40) * 0.12 * Math.min(a.alpha, b.alpha);
+              this.ctx.beginPath();
+              this.ctx.moveTo(a.px, a.py);
+              this.ctx.lineTo(b.px, b.py);
+              this.ctx.strokeStyle = `rgba(${this.accent[0]}, ${this.accent[1]}, ${this.accent[2]}, ${lineAlpha})`;
+              this.ctx.lineWidth = 0.5;
+              this.ctx.stroke();
+            }
+          }
+        }
+
+        requestAnimationFrame(() => this.animate());
+      }
+    }
+
+    const globeCanvas = document.getElementById('cyber-globe');
+    if (globeCanvas) {
+      new ParticleSphere(globeCanvas);
     }
 
     /* Tactical typing effect on subtitle */
